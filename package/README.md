@@ -11,3 +11,6 @@ For writing your own simulations/running test examples
 
 ### Jupyter Notebooks
 For analysing data and mass modifying JSON templates
+
+### Additional Demonstrations
+`testrun.sh` contained in this will run two consecutive simulations from `json_templates/test.json` and save the data to folders within this directory.
