@@ -6,10 +6,10 @@ Alternatively, this project may be handed to ~~a different undergraduate student
 Data extraction TL;DR:
 If you want to reprod. the results, good luck, you will want the tests stored in /tests (although the graphs and random seeds are both stored in the h5 which is available on request)
 
-If you want to do analysis on the data, the summaries will have everything. The _all column will generally be the entire range (and what you want) after the 1k burn-in, so it might be means of t=10000 or t=5000 depending on if you're looking at the _10000.pkl/csv or the _allk and _sync (both are 5000 simulated units).
+If you want to do analysis on the data, the summaries will have everything. The _all column will generally be the entire range (and what you want) after the 1k burn-in, so it might be means of t=~~10000~~ 9000 or t=~~5000~~ 4000 depending on if you're looking at the _10000.pkl/csv or the _allk and _sync (both are 5000 simulated units).
 
 Summary information:
-Each summary row contains a different test run, `c` is the coupling strength (a multiplier for coupled effects), `k` is the nearest neighbour coupling for the Watts-Strogatz graph during that run, `n` is the amount of nodes in the network, `p` is the probability for an edge to be rewired, `zeta` is the strength of the stochastic noise, `analytical_sigma_cont` is the analytically derived relative synchrony, `kuramoto_euler_sigma_squared_all` is the empircally-meaned relative synchrony for the kuramoto model, and `ou_euler_sigma_squared_all` is the empirically-meaned relative synchrony for the linear model.
+Each summary row contains a different test run, `c` is the coupling strength (a multiplier for coupled effects), `k` is the nearest neighbour coupling for the Watts-Strogatz graph during that run, `n` is the amount of nodes in the network, `p` is the probability for an edge to be rewired, `zeta` is the strength of the stochastic noise, `analytical_sigma_cont` is the analytically derived relative synchrony, `kuramoto_euler_sigma_squared_all` is the empircally-meaned relative synchrony for the kuramoto model, and `ou_euler_sigma_squared_all` is the empirically-meaned relative synchrony for the linear model, as stated in the above paragraph, the `_all` generally indicates a mean for about `t=4000` steps.
 
 
 .pkl is designed to be opened with [numpy.load][https://numpy.org/doc/stable/reference/generated/numpy.load.html]
