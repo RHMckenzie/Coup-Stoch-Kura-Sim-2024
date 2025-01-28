@@ -1,6 +1,6 @@
-## Important information about JSON templates
+## Important information about JSON templates and parser.py
 
-
+TODO!
 
 ## Individual Runs
 
@@ -34,3 +34,4 @@ This script should produce summary statistics from the single .h5 file `outfile.
 ## TODO: 
 * produce example for batch processing 
 * modularise autorun variables to be invoked outside
+* information on parser.py

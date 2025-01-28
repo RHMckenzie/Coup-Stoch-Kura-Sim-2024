@@ -6,12 +6,35 @@ import pandas as pd
 import os
 import tqdm
 import sys
+import json
 
 def gather_data(folder, breakin = 100, adv_desc = False, desc = True):
     if desc:
-        _s = lambda x: x.split('-')[1]
-        n = folder.split("_")
-        desc = [_s(n[i]) for i in range(-3, 0)]
+        try:
+            # initial attempt
+            _s = lambda x: x.split('-')[1]
+            n  = folder.split("_")
+            desc = [_s(n[i]) for i in range(-3, 0)]
+        except:
+            # not named folder, use settings.json
+            print("Non-instanced folder name, falling back")
+            try:
+                with open(folder + "/settings.json", 'r') as f:
+                    js = json.load(f)
+                    print(js)
+                #Example, extract settings from settings.json
+                grp_a = js["graph"]["arguments"]
+                grp_s = js["graph"]["settings"]
+                desc = []
+                desc.append(grp_a["p"])
+                desc.append(js["processes"][0]["arguments"]["zeta"])
+                desc.append(grp_s["cross_couple_value"])
+
+            except FileNotFoundError as err:
+                print(f"Unexpected {err=}, {type(err)=}")
+                return None
+
+
     try:
         k_f = np.load(folder + "/kuramoto_euler_sigma_squared.npy")
         l_f = np.load(folder + "/ou_euler_sigma_squared.npy")
@@ -19,20 +42,14 @@ def gather_data(folder, breakin = 100, adv_desc = False, desc = True):
         l_m = l_f[-breakin:].mean()
         with open(folder + "/analytical_sigma_cont.dat", "r") as f:
             s_c = float(f.readline())
-        with open(folder + "/analytical_sigma_discrete.dat", "r") as f:
-            s_d = float(f.readline())
-        with open(folder + "/analytical_sigma_discrete_approx.dat", "r") as f:
-            s_da = float(f.readline())
     except FileNotFoundError as err:
         print(f"Unexpected {err=}, {type(err)=}")
         return None
     out = {
         "kuramoto_sigma_squared": k_m,
         "linear_sigma_squared": l_m,
-        "analytical_sigma_continuous": s_c,
-        "analytical_sigma_discrete": s_d,
-        "analytical_sigma_discrete_approx": s_da
-    }
+        "analytical_sigma_continuous": s_c
+        }
     if desc and not adv_desc:
         out.update({
             "p": desc[0],
