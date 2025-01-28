@@ -1,7 +1,7 @@
 {
     "settings": {
         "_comment1": "Folder name to save things to, leave null for unnamed run",
-            "save_folder": null,
+            "save_folder": "./test_results/test",
         "_comment2": "Whether to timestamp the above folder for easy recording of data",
             "time_stamp": true,
         "_comment3": "Force all random seeds to be some equal value stored at graph savetime",
