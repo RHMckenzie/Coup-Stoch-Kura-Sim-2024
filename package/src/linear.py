@@ -1,3 +1,6 @@
+# Linear OU process simulator, should be fairly straightforward
+# Most of work done in linear_runtime and single_linear_vec
+
 import numpy as np
 import math
 import tqdm

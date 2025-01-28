@@ -1,3 +1,7 @@
+# Script that concatenates existing h5 files into a single h5 file, 
+# point it at folders containing h5 files and designate an output h5 file.
+
+
 import h5py
 import sys
 import os

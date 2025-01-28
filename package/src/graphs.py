@@ -20,6 +20,7 @@ def _watts_strogatz_replace_helper(edge, rng, n, p, existing_edges, new_edges):
 
 # Partially based upon: 
 # https://networkx.org/documentation/stable/reference/generated/networkx.generators.random_graphs.watts_strogatz_graph.html#networkx.generators.random_graphs.watts_strogatz_graph
+# Generates a directed watts_strogatz graph and returns a networkX DiGraph object
 def watts_strogatz_directed(n, k, p, seed=None):
     rng = np.random.default_rng(seed = seed)
     #construct edge list
@@ -28,8 +29,6 @@ def watts_strogatz_directed(n, k, p, seed=None):
         for j in range(1, k//2 + 1):
             edge_list.append((i, (i + j) % n))  # Forward neighbors
             edge_list.append((i, (i - j) % n))  # Backward neighbors
-
-
     #probabilistically remove edges:
     new_edges = []
     for edge in edge_list:

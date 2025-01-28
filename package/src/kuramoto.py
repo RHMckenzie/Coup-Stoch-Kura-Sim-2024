@@ -1,3 +1,9 @@
+#The meat and bones of the kuramoto simulator
+# The following functions contain most of the work:
+# single_kuramoto_rk1
+# kuramoto_runtime
+# kuramoto_derivative
+
 import math
 import numpy as np
 import tqdm
@@ -70,60 +76,9 @@ def angular_difference(x, y):
 # o is the vector of natural frequencies for each oscillator
 # dt is the time differential of the update.
 # noise is the variance of the perbetuation
-def single_kuramoto_old(K, phi, dt, o, noise, rng = None):
-    phi_updated = phi.copy()
-    for i in range(len(phi)):
-        # get sine offsets
-        sine = np.array(list(map(lambda x: math.sin(x - phi[i]), phi)))
-        # Extract inbound column on coupling matrix
-        k = np.take(K, i, axis = 1)[0]
-        # construct update term
-        dx = np.mean(sine @ k.T) + o[i]
-        # Construct Noise term 
-        if rng is None:
-            noise_term = (noise * np.random.normal())
-        else:
-            noise_term = noise * rng.normal()
-        phi_updated[i] += (dx * dt) + (noise_term * math.sqrt(dt)) # an issue with this is that larger time values may be sampled incorrectly
-        phi_updated[i] = norm_circular(phi_updated[i])
-    return phi_updated
 
 
-def single_kuramoto_old_vectorised(K, phi, dt, o, noise, rng = None, mean = False):
-    phi_updated = phi.copy()
-    N = phi.shape[0]
-    sine_mat = np.stack([phi - np.take(phi,i) for i in range(N)], axis=1).reshape((N, N))
-    #prefilter non-existant values before performing costly operation (sine)
-    sine_mat = np.where(K != 0, sine_mat, 0)
-
-    #get sine values of sparse K matrix
-    sine_func = np.vectorize(math.sin)
-    sine_mat = sine_func(sine_mat)
-    #multiply by coupling
-    sine_vec = np.multiply(sine_mat, K)
-    
-    #Arenas says no mean for node degree!!! sigma_ij = K/k_i, section 3.1.2, EQ 11, Arenas 2008, Syncrhonisation in Complex Networks
-    if mean:
-        #take fast mean
-        mean_vec = np.ones(N) * 1/N #Check if this should be matrix degree instead, or even included at all????
-        dx_vec = mean_vec @ sine_vec
-    else:
-        #Take sum
-        sum_vec = np.ones(N)
-        dx_vec = sum_vec @ sine_vec
-
-    
-    if rng is None:
-        noise_term = (noise * np.random.normal(size = N))
-    else:
-        noise_term = noise * rng.normal(size = N)
-
-    phi_updated = phi_updated + (dx_vec * dt) + (noise_term * math.sqrt(dt))
-    phi_updated = norm_circ_vec(phi_updated)
-    phi_updated = np.asarray(phi_updated).reshape(-1)
-    return phi_updated
-
-
+# Old function for an euler Kuramoto simulator, do not use
 def single_kuramoto_old_modern(K, phi, dt, o, noise, rng = None, mean = False):
     phi_updated = phi.copy()
     N = phi.shape[0]
@@ -137,7 +92,6 @@ def single_kuramoto_old_modern(K, phi, dt, o, noise, rng = None, mean = False):
     sine_vec = np.multiply(sine_mat, K)
     
     #Arenas says no mean for node degree!!! sigma_ij = K/k_i, section 3.1.2, EQ 11, Arenas 2008, Syncrhonisation in Complex Networks
-       #Take sum
     sum_vec = np.ones(N)
     dx_vec = sum_vec @ sine_vec
 
@@ -152,7 +106,7 @@ def single_kuramoto_old_modern(K, phi, dt, o, noise, rng = None, mean = False):
     phi_updated = np.asarray(phi_updated).reshape(-1)
     return phi_updated
 
-
+# Gets the dx of the Kuramoto model, 
 def kuramoto_derivative(phi, K, o, debug_value = None):
     N = len(phi)
     if debug_value is not None:
@@ -178,7 +132,7 @@ def kuramoto_derivative(phi, K, o, debug_value = None):
     return np.asarray(dphi).reshape(-1)
 
 
-
+#RK1 is euler, this is the explicit euler method of simulating Kuramoto oscillators
 def single_kuramoto_rk1(K, phi, dt, o, noise, rng = None, mean = False, debug = False):
     N = phi.shape[0]
     #couple with derivative    
@@ -196,6 +150,8 @@ def single_kuramoto_rk1(K, phi, dt, o, noise, rng = None, mean = False, debug = 
     phi_updated = np.asarray(phi_updated).reshape(-1)
     return phi_updated
 
+
+# RungeKutta 4, might not be correct, err on side of caution of this because I don't think it properly derives the values
 def single_kuramoto_rk4(K, phi, dt, o, noise, rng = None, mean = False, debug = False):
     if debug:
         debug_values = ("k1", "k2", "k3", "k4")
@@ -224,15 +180,17 @@ def single_kuramoto_rk4(K, phi, dt, o, noise, rng = None, mean = False, debug = 
 
 
 SIM_METHODS = {
+    # Euler
     "rk1": single_kuramoto_rk1,
+    # RungeKutta4
     "rk4": single_kuramoto_rk4,
+    # Debug, don't use
     "old": single_kuramoto_old_modern
 }
 
 
-# Runs t iterations of the Kuramoto model
-# Comments pending
-def kuramoto_runtime(K, t, zeta, dt = 0.1, seed = None, prog_bar = False, sim_method = "old", synchronised_start = False):
+# Runs t iterations of the Kuramoto model given graph K, recommended to chagne the sim_method to rk1
+def kuramoto_runtime(K, t, zeta, dt = 0.1, seed = None, prog_bar = False, sim_method = "rk1", synchronised_start = False):
     difference_func = angular_difference
     N = K.shape[0]
     rng = np.random.default_rng(seed = seed)
@@ -270,23 +228,23 @@ def kuramoto_runtime(K, t, zeta, dt = 0.1, seed = None, prog_bar = False, sim_me
         "final_state": state_list[-1]
             } 
 
+# A wrapper for the above that executes Euler
 def kuramoto_euler(*args, **kwargs):
     if "sim_method" in kwargs:
         del kwargs["sim_method"]
     kwargs["sim_method"] = "rk1"
     return kuramoto_runtime(*args, **kwargs)
 
+# Ditto but for RK4
 def kuramoto_rk4(*args, **kwargs):
     if "sim_method" in kwargs:
         del kwargs["sim_method"]
     kwargs["sim_method"] = "rk4"
     return kuramoto_runtime(*args, **kwargs)
 
-
+# Ditto but for the deprecated euler prior to confirming that the rk1 method worked, do not use
 def kuramoto_old(*args, **kwargs):
     if "sim_method" in kwargs:
         del kwargs["sim_method"]
     kwargs["sim_method"] = "old"
     return kuramoto_runtime(*args, **kwargs)
-
-#def linear_runtime():

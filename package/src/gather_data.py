@@ -1,3 +1,6 @@
+# Short Script that is pointed at a data folder containing numerious runs from subfolders, 
+# constructs a csv/pkl of summary data
+
 import numpy as np
 import pandas as pd
 import os

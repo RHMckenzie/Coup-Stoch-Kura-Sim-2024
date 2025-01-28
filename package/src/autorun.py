@@ -1,24 +1,6 @@
-#Each file contains 9 iterations
-
-#each file now takes 1 hour (incl. overhead)!
-
-# 1 file per hour
-# 12 files per 12 hour period
-# 24 files per day period
-
-# 960 total files
-
-
-
-#dataset costs 40 jobs per day,
-#max queue is 200, (for 5 jobs running the same data)
-#can run 5 * 9 iterations/day
-# will likely take 3 days
-
-#0.2MB per iteration.
-
-# 960 * 10 iterations. 2GB total data for a n=10 dataset, 20 gb for n=100
-
+# A short script designed to be batch executed by py_auto_array.pbs, 
+# seperates jobs into 1 of 40 different threads (depending on initial argv, 
+# can also cycle those if multiple runs are to be made in parallel depending on the second argv)
 
 import os
 import functools
@@ -143,7 +125,9 @@ def populate_hd5_group(folder, destination, filename, info_dict, append=True):
         data_name = str(os.path.join(os.path.basename(folder), filename))
         # Save to HDF5
         with h5py.File(destination, 'a' if append else 'w') as hf:
-            dataset = hf.create_dataset(data_name, data = data, compression="lzf" if type(data) is not np.float32 else None)
+            dataset = hf.create_dataset(data_name, \
+                                        data = data, \
+                                        compression="lzf" if type(data) is not np.float32 else None)
             for k in keyset:
                 dataset.attrs[k] = info[k]
         return True

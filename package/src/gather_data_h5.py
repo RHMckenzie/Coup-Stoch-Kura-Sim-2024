@@ -1,3 +1,7 @@
+# Short Script that is pointed at a h5 package file, 
+# constructs a csv/pkl of summary data
+
+
 import numpy as np
 import pandas as pd
 import os
@@ -6,7 +10,7 @@ import sys
 import h5py
 
 
-
+# files that were specifically valid for the task at hand, may be expanded if necessary
 allowed = [
     "analytical_sigma_cont.dat",
     "ou_euler_sigma_squared.npy",
