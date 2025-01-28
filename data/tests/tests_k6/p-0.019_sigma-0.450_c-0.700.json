@@ -1,0 +1,89 @@
+{
+    "settings": {
+        "_comment1": "Folder name to save things to, leave null for unnamed run",
+        "save_folder": "/project/TB_NN_INFOTHEORY/rmck6484_thesis/data/p-0.019_sigma-0.450_c-0.700",
+        "_comment2": "Whether to timestamp the above folder for easy recording of data",
+        "time_stamp": true,
+        "_comment3": "Force all random seeds to be some equal value stored at graph savetime",
+        "force_seed": true,
+        "_comment4": "Whether to save state information DEPRECATED AS THIS SETTING IS AVAILABLE PER PROCESS",
+        "save_state": true,
+        "_comment5": "Seed Value, currently only for recording purposes",
+        "seed": null,
+        "_comment6": "Amount of times run, usually paird with force_seed to set a random seed for n runs",
+        "n_batch": 20,
+        "_comment7": "Print debug information",
+        "debug_prints": true,
+        "_comment8": "Save JSON to data folder",
+        "save_json": true
+    },
+    "graph": {
+        "_comment": "the name of the graph function (found in GRAPH_FUNCTIONS under parser.py)",
+        "function": "strong_watts_strogatz",
+        "_comment2": "the appropriate arguments for said function",
+        "arguments": {
+            "seed": null,
+            "n": 100,
+            "k": 6,
+            "p": 0.019,
+            "tries": 1000
+        },
+        "_comment3": "a list of settings that apply specifically to the graph",
+        "settings": {
+            "_comment_normalise": "whether to ensure that the in-degree is 1 (or 0 for edgeless nodes)",
+            "normalise": true,
+            "_comment_store_graph": "Whether to store the adjacency matrix of the graph to a file (usually true, but can't presume)",
+            "store_graph": true,
+            "_comment_couple": "The self-coupling value of the adjacency matrix",
+            "cross_couple_value": 0.7
+        }
+    },
+    "_comment_processes": "Each process' result is stored and used in post_processing information",
+    "processes": [
+        {
+            "_comment1": "A simple Kuramoto Process",
+            "function": "kuramoto_euler",
+            "arguments": {
+                "seed": null,
+                "t": 5000,
+                "dt": 0.01,
+                "zeta": 0.45,
+                "prog_bar": false
+            },
+            "settings": {
+                "_comment_filter": "Select data to not record when running this process, usually done to save space",
+                "filter": [
+                    "all_states",
+                    "order_parameters"
+                ]
+            }
+        },
+        {
+            "_comment1": "An Euler implementation of O-U process",
+            "function": "ou_euler",
+            "arguments": {
+                "seed": null,
+                "t": 5000,
+                "dt": 0.01,
+                "zeta": 0.45,
+                "prog_bar": false,
+                "vectorised": true
+            },
+            "settings": {
+                "_comment_filter": "Select data to not record when running this process, usually done to save space",
+                "filter": [
+                    "all_states"
+                ]
+            }
+        },
+        {
+            "_comment1": "Covariance Calculation, not a stochastic process",
+            "function": "analytical_sigma_cont",
+            "arguments": {
+                "max_iter": 10000,
+                "zeta": 0.45
+            }
+        }
+    ],
+    "post_process": []
+}

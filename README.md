@@ -1,8 +1,8 @@
-# Coupled Stochastic Kuramoto Simulator (2024)
-A short numpy vector-optimised package that simulates coupled stochastic oscillators under the Kuramoto model on a given networkX graph, also performs an efficient evaluation of relative synchrony (which I demonstrate empirically to be an upper bound on the actual relative synchrony in my undergraduate thesis).
+# A Coupled Stochastic Oscillator Simulator for the Evaluation of Relative Synchrony (2024)
+A short numpy vector-optimised package that simulates coupled stochastic oscillators under both the Kuramoto and Linear (Ornstein-Uhlenbeck) models on "any" given networkX graph (although the data is targeted towards W-S small-world networks), also can perform an efficient evaluation of relative synchrony, which was observed to empirically be an upperbound on the stable relative synchrony (or stable "relative width") in my undergraduate thesis.
 
-Further instructions on running this package can be found under the "package" section
+Further instructions on running this package and the source code can be found under the `/package` section
 
-Data summaries can be found under the "data" section
+Data summaries can be found under the `/data` folder
 
-The dataset is ~150GB and can be provided on request from richardmckenzie@protonmail.com
+The actual dataset is ~50GB and can be provided on request from richardmckenzie@protonmail.com
