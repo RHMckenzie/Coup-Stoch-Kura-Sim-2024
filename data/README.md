@@ -21,15 +21,15 @@ the actual data (available on request via email, 50 GB) is stored in .h5 is desi
 
 ### Synchronised Stability Results:
 Results for experiments that were initialised in sync, aka stability results. (These are the strongest results to prove and probably the ones you want if you're doing an EDA)
-Tests are in data/tests.zip/tests_synced 
-Summaries are in gathered_data_sync.csv and gathered_data_sync.pkl
+Tests are in `data/tests.zip/tests_synced` 
+Summaries are in `gathered_data_sync.csv` and `gathered_data_sync.pkl`
 
-### Onset of Synchrony Results:
+### All Onset of Synchrony Results:
 Results for experiments that were not initially in sync, or that measured if such systems would synchronise/the "onset" of synchrony.
 tests are in the tests.zip archive and labelled tests_k4_10k/2, and tests_k6/k8/k10
-Summaries are split between the gathered_data_onset_allk.csv/pkl and need to be merged with the gathered_data_10000.csv/pkl
+Summaries are split between the `gathered_data_onset_allk.csv/pkl` and need to be merged with the `gathered_data_10000.csv/pkl`
 
 ### Width Estimation results:
 Results for experiments that were not initially in sync, but also ran for 10,000 timeunits instead of the typical 5000 to determine if the runtime was correct.
 Tests are in tests_k4_10k/2
-Summaries are in gathered_data_10000.csv/gathered_data_10000.pkl
+Summaries are in `gathered_data_10000.csv/gathered_data_10000.pkl`
