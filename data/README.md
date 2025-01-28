@@ -9,7 +9,7 @@ If you want to reprod. the results, good luck, you will want the tests stored in
 If you want to do analysis on the data, the summaries will have everything. The _all column will generally be the entire range (and what you want) after the 1k burn-in, so it might be means of t=10000 or t=5000 depending on if you're looking at the _10000.pkl/csv or the _allk and _sync (both are 5000 simulated units).
 
 Summary information:
-Each summary row contains a different test run, `c` is the coupling strength (a multiplier for coupled effects), `k` is the nearest neighbour coupling for the Watts-Strogatz graph during that run, `n` is the amount of nodes in the network, `p` is the probability for an edge to be rewired, `zeta` is the 
+Each summary row contains a different test run, `c` is the coupling strength (a multiplier for coupled effects), `k` is the nearest neighbour coupling for the Watts-Strogatz graph during that run, `n` is the amount of nodes in the network, `p` is the probability for an edge to be rewired, `zeta` is the strength of the stochastic noise, `analytical_sigma_cont` is the analytically derived relative synchrony, `kuramoto_euler_sigma_squared_all` is the empircally-meaned relative synchrony for the kuramoto model, and `ou_euler_sigma_squared_all` is the empirically-meaned relative synchrony for the linear model.
 
 
 .pkl is designed to be opened with [numpy.load][https://numpy.org/doc/stable/reference/generated/numpy.load.html]
@@ -20,14 +20,17 @@ the actual data (available on request via email, 50 GB) is stored in .h5 is desi
 
 
 
-Stability Results:
-Tests are in data/tests/tests_synced 
+Synchronised Stability Results:
+Results for experiments that were initially in sync. (These are the strongest results to prove and probably the ones you want if you're doing an EDA)
+Tests are in data/tests.zip/tests_synced 
 Summaries are in gathered_data_sync.csv and gathered_data_sync.pkl
 
-Onset Results:
-tests are in the tests folder and labelled tests_k4_10k/2, and tests_k6/k8/k10
+Onset of Synchrony Results:
+Results for experiments that were not initially in sync.
+tests are in the tests.zip archive and labelled tests_k4_10k/2, and tests_k6/k8/k10
 Summaries are split between the gathered_data_onset_allk.csv/pkl and need to be merged with the gathered_data_10000.csv/pkl
 
 Width Estimation results:
+Results for experiments that were not initially in sync, but also ran for 10,000 timeunits instead of the typical 5000.
 Tests are in tests_k4_10k/2
 Summaries are in gathered_data_10000.csv/gathered_data_10000.pkl
