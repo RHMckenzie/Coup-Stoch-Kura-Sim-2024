@@ -1,0 +1,19 @@
+#!/bin/bash
+#PBS -P TB_NN_INFOTHEORY
+#PBS -l select=1:ncpus=1:mem=1GB
+#PBS -l walltime=00:16:00
+
+PROJECT=TB_NN_INFOTHEORY
+
+PROJECT_LOC=/project/TB_NN_INFOTHEORY/rmck6484_thesis
+
+module load hdf5/1.10.6
+module load python/3.9.15
+cd "$PBS_O_WORKDIR"
+python --version
+virtualenv --system-site-packages ${PROJECT_LOC}/pyenv/
+source ${PROJECT_LOC}/pyenv/bin/activate
+cd ${PROJECT_LOC}
+
+
+python3 /project/TB_NN_INFOTHEORY/rmck6484_thesis/src/autorun2.py test

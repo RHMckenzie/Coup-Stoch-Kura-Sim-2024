@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -P TB_NN_INFOTHEORY
+#PBS -l select=1:ncpus=4:mem=1GB
+#PBS -l walltime=02:00:00
+
+PROJECT=TB_NN_INFOTHEORY
+
+PROJECT_LOC=/project/TB_NN_INFOTHEORY/rmck6484_thesis
+
+module load python/3.9.15
+cd "$PBS_O_WORKDIR"
+python --version
+virtualenv --system-site-packages ${PROJECT_LOC}/pyenv/
+source ${PROJECT_LOC}/pyenv/bin/activate
+cd ${PROJECT_LOC}
+
+
+python3 /project/TB_NN_INFOTHEORY/rmck6484_thesis/src/parser.py /project/TB_NN_INFOTHEORY/rmck6484_thesis/sim.json

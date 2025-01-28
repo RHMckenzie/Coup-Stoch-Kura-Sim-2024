@@ -1,0 +1,1 @@
+Generally it goes autorun.py -> gather_data_h5.py -> combine.py

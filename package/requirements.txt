@@ -1,0 +1,7 @@
+pip
+wheel
+setuptools
+tqdm
+networkx
+numpy
+h5py==3.9.0

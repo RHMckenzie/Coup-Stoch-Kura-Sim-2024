@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -P TB_NN_INFOTHEORY
+#PBS -q dtq
+#PBS -l select=1:ncpus=1:mem=1GB
+#PBS -l walltime=12:00:00
+
+PROJECT=TB_NN_INFOTHEORY
+
+PROJECT_LOC=/project/TB_NN_INFOTHEORY/rmck6484_thesis
+
+cd ${PROJECT_LOC}
+rm -r data*

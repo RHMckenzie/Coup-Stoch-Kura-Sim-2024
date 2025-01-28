@@ -1,0 +1,19 @@
+#!/bin/bash
+#PBS -P TB_NN_INFOTHEORY
+#PBS -q dtq
+#PBS -l select=1:ncpus=1:mem=4GB
+#PBS -l walltime=03:00:00
+
+PROJECT=TB_NN_INFOTHEORY
+
+PROJECT_LOC=/project/TB_NN_INFOTHEORY/rmck6484_thesis
+
+module load python/3.9.15
+cd "$PBS_O_WORKDIR"
+python --version
+virtualenv --system-site-packages ${PROJECT_LOC}/pyenv/
+source ${PROJECT_LOC}/pyenv/bin/activate
+cd ${PROJECT_LOC}
+
+
+python3 ${PROJECT_LOC}/src/gather_data_adv.py 1000 ${LIMIT} ${DATA_LOC} ${DATA_LOC}_${LIMIT}
