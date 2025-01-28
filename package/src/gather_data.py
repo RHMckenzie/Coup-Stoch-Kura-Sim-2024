@@ -21,7 +21,7 @@ def gather_data(folder, breakin = 100, adv_desc = False, desc = True):
             try:
                 with open(folder + "/settings.json", 'r') as f:
                     js = json.load(f)
-                    print(js)
+                    #print(js)
                 #Example, extract settings from settings.json
                 grp_a = js["graph"]["arguments"]
                 grp_s = js["graph"]["settings"]
@@ -82,6 +82,7 @@ def save_data_array(data_array, location):
     df_data = pd.DataFrame(data_array)
     df_data.to_pickle(location + "/gathered_data.pkl")
     df_data.to_csv(location + "/gathered_data.csv")
+    print("created csv and pkl files at ", location)
 
 if __name__ == "__main__":
     if len(sys.argv) <= 1:
